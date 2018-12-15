@@ -1,0 +1,44 @@
+<joblist>
+  <job>
+    <context>
+      <options preserveOrder='true'>
+        <option enforcedvalues='true' name='Action' required='true' value='status' values='restart,start,status,stop'>
+          <label>action</label>
+        </option>
+        <option name='Action1' required='true' value='status' values='restart,start,status,stop' />
+      </options>
+    </context>
+    <defaultTab>output</defaultTab>
+    <description>action on apache message</description>
+    <dispatch>
+      <excludePrecedence>true</excludePrecedence>
+      <keepgoing>false</keepgoing>
+      <rankOrder>ascending</rankOrder>
+      <successOnEmptyNodeFilter>false</successOnEmptyNodeFilter>
+      <threadcount>1</threadcount>
+    </dispatch>
+    <executionEnabled>true</executionEnabled>
+    <group>Web</group>
+    <id>action-on-apache</id>
+    <loglevel>INFO</loglevel>
+    <name>Apache</name>
+    <nodeFilterEditable>false</nodeFilterEditable>
+    <nodefilters>
+      <filter>name: ip-172-31-10-181</filter>
+    </nodefilters>
+    <nodesSelectedByDefault>true</nodesSelectedByDefault>
+    <scheduleEnabled>true</scheduleEnabled>
+    <sequence keepgoing='true' strategy='parallel'>
+      <command>
+        <exec>service apache2 ${option.Action}</exec>
+      </command>
+      <command>
+        <jobref group='Variables' name='context'>
+          <arg line='-message ${job.execid}' />
+          <uuid>context</uuid>
+        </jobref>
+      </command>
+    </sequence>
+    <uuid>action-on-apache</uuid>
+  </job>
+</joblist>
